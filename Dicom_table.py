@@ -214,7 +214,7 @@ for study in studies:
         ## Using the lowest resolution to get frames with tissues:
         print(sorted(volume_dict))
         low_res_instance_ID = volume_dict[
-            sorted(volume_dict)[-5]]  ### this -5 is not ideal and I need to extract it from the metadata somehow.
+            sorted(volume_dict)[0]]  ### this -5 is not ideal and I need to extract it from the metadata somehow.
         low_res_instance = pydicom.dataset.Dataset.from_json(
             client.retrieve_instance_metadata(study_instance_uid=study_id,
                                               series_instance_uid=series_id,
@@ -247,7 +247,7 @@ for study in studies:
 
         # Plotting set up
         n_rows = 1
-        n_cols = len(sorted(volume_dict)[-4:]) + 1
+        n_cols = len(sorted(volume_dict)[1:]) + 1
         fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 10))
         axes_flat = axes.flatten()
         img = axes_flat[0].imshow(frame)
@@ -262,7 +262,7 @@ for study in studies:
 
         # using all other high resolution volume to map the low res pixel from above
 
-        for n, high_res_instance_ID_index in enumerate(sorted(volume_dict)[-4:]):
+        for n, high_res_instance_ID_index in enumerate(sorted(volume_dict)[1:]):
 
             high_res_instance_ID = volume_dict[high_res_instance_ID_index]
             high_res_instance = pydicom.dataset.Dataset.from_json(
