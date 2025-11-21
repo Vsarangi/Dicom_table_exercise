@@ -245,10 +245,10 @@ for study in studies:
         x_in_tile = pixel_with_tissue[0][location]
         y_in_tile = pixel_with_tissue[1][location]
 
-        # Plotting set up
+        # Plotting set up (use constrained_layout to reduce whitespace)
         n_rows = 1
         n_cols = len(sorted(volume_dict)[1:]) + 1
-        fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 10))
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=(20, 10), constrained_layout=True)
         axes_flat = axes.flatten()
         img = axes_flat[0].imshow(frame)
         rect = patches.Rectangle((y_in_tile - 2, x_in_tile - 2), 3, 3, linewidth=0.5, edgecolor='r', facecolor='red',
@@ -317,6 +317,7 @@ for study in studies:
         for a in axes_flat:
             a.set_xticklabels([])
             a.set_yticklabels([])
-        plt.savefig("Series_" + str(series_count) + ".png")
+        # Save using bbox_inches='tight' and a small pad to crop extra white space
+        fig.savefig("Series_" + str(series_count) + ".png", bbox_inches='tight', pad_inches=0.02, dpi=200)
 
 output_file.close()
